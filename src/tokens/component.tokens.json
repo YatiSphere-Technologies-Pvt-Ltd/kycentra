@@ -1,0 +1,123 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "$name": "Nexus Component Tokens",
+  "$description": "Component-level tokens. Reference semantic tokens, never primitives. These define the personality of each component.",
+
+  "button": {
+    "primary": {
+      "bg": "{indigo.600}",
+      "bgHover": "{indigo.700}",
+      "bgActive": "{indigo.800}",
+      "fg": "{neutral.0}",
+      "shadow": "{elevation.1}",
+      "shadowHover": "{elevation.2}"
+    },
+    "secondary": {
+      "bg": "transparent",
+      "bgHover": "{indigo.50}",
+      "bgActive": "{indigo.100}",
+      "fg": "{indigo.600}",
+      "border": "{border.brand}"
+    },
+    "ghost": {
+      "bg": "transparent",
+      "bgHover": "{interactive.hoverOverlay}",
+      "bgActive": "{interactive.activeOverlay}",
+      "fg": "{text.primary}"
+    },
+    "danger": {
+      "bg": "{rose.600}",
+      "bgHover": "{rose.700}",
+      "bgActive": "{rose.800}",
+      "fg": "{neutral.0}"
+    }
+  },
+
+  "card": {
+    "bg": "{surface.card}",
+    "bgHover": "{surface.cardHover}",
+    "border": "{border.subtle}",
+    "borderHover": "{border.default}",
+    "shadow": "{elevation.1}",
+    "shadowHover": "{elevation.2}",
+    "radius": "{radius.xl}",
+    "padding": "20px"
+  },
+
+  "table": {
+    "headerBg": "{surface.inset}",
+    "headerFg": "{text.secondary}",
+    "headerType": "{typography.tableHeader}",
+    "cellType": "{typography.tabular}",
+    "rowBorder": "{border.subtle}",
+    "rowHoverBg": "{interactive.hoverOverlay}",
+    "rowSelectedBg": "{indigo.50}",
+    "sortIconDefault": "{text.tertiary}",
+    "sortIconActive": "{text.brand}"
+  },
+
+  "sidebar": {
+    "bg": "{surface.sidebar}",
+    "fg": "oklch(78% 0.010 270)",
+    "fgActive": "{neutral.0}",
+    "fgHover": "oklch(90% 0.005 270)",
+    "itemActiveBg": "oklch(100% 0 0 / 8%)",
+    "itemHoverBg": "oklch(100% 0 0 / 5%)",
+    "iconSize": "20px",
+    "iconGap": "12px",
+    "sectionLabel": "{typography.overline}"
+  },
+
+  "badge": {
+    "radius": "{radius.full}",
+    "type": "{typography.caption}",
+    "variants": {
+      "success":  { "bg": "{status.successBg}",  "fg": "{status.success}",  "border": "{status.successBorder}" },
+      "warning":  { "bg": "{status.warningBg}",  "fg": "{status.warning}",  "border": "{status.warningBorder}" },
+      "danger":   { "bg": "{status.dangerBg}",   "fg": "{status.danger}",   "border": "{status.dangerBorder}" },
+      "info":     { "bg": "{status.infoBg}",      "fg": "{status.info}",     "border": "{status.infoBorder}" },
+      "neutral":  { "bg": "{status.neutralBg}",   "fg": "{status.neutral}",  "border": "{status.neutralBorder}" },
+      "riskCritical": { "bg": "{risk.criticalBg}", "fg": "{risk.critical}" },
+      "riskHigh":     { "bg": "{risk.highBg}",     "fg": "{risk.high}" },
+      "riskMedium":   { "bg": "{risk.mediumBg}",   "fg": "{risk.medium}" },
+      "riskLow":      { "bg": "{risk.lowBg}",      "fg": "{risk.low}" },
+      "riskMinimal":  { "bg": "{risk.minimalBg}",  "fg": "{risk.minimal}" }
+    }
+  },
+
+  "modal": {
+    "bg": "{surface.card}",
+    "radius": "{radius.2xl}",
+    "shadow": "{elevation.4}",
+    "overlayBg": "{surface.overlay}",
+    "maxWidth": { "sm": "400px", "md": "560px", "lg": "720px", "xl": "960px" }
+  },
+
+  "tooltip": {
+    "bg": "{neutral.800}",
+    "fg": "{neutral.0}",
+    "radius": "{radius.md}",
+    "shadow": "{elevation.2}"
+  },
+
+  "aiIndicator": {
+    "$description": "Visual language for AI-generated content. Violet hue is exclusively reserved for AI signals.",
+    "icon": "{violet.500}",
+    "labelBg": "{violet.50}",
+    "labelFg": "{violet.700}",
+    "confidenceTrack": "{neutral.200}",
+    "confidenceHigh": "{teal.600}",
+    "confidenceMedium": "{amber.500}",
+    "confidenceLow": "{neutral.300}"
+  },
+
+  "reasoningChain": {
+    "bg": "{surface.inset}",
+    "border": "{border.default}",
+    "stepConnector": "{border.default}",
+    "stepDotActive": "{indigo.600}",
+    "stepDotComplete": "{emerald.600}",
+    "citationBg": "{indigo.50}",
+    "citationFg": "{indigo.600}"
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "$name": "Nexus Semantic Tokens",
+  "$description": "Theme-aware tokens consumed by components. Light and dark themes are distinct experiences, not mechanical inversions.",
+
+  "light": {
+    "surface": {
+      "$description": "Layered surface system. Each level adds subtle warmth and depth.",
+      "page":          { "$value": "{neutral.25}" },
+      "card":          { "$value": "{neutral.0}" },
+      "cardHover":     { "$value": "{neutral.50}" },
+      "panel":         { "$value": "{neutral.0}" },
+      "inset":         { "$value": "{neutral.50}" },
+      "overlay":       { "$value": "oklch(20% 0.01 265 / 50%)" },
+      "sidebar":       { "$value": "{neutral.950}" },
+      "topbar":        { "$value": "{neutral.0}" }
+    },
+
+    "text": {
+      "primary":    { "$value": "{neutral.900}" },
+      "secondary":  { "$value": "{neutral.600}" },
+      "tertiary":   { "$value": "{neutral.400}" },
+      "disabled":   { "$value": "{neutral.300}" },
+      "inverse":    { "$value": "{neutral.0}" },
+      "brand":      { "$value": "{indigo.600}" },
+      "onBrand":    { "$value": "{neutral.0}" },
+      "link":       { "$value": "{indigo.600}" },
+      "linkHover":  { "$value": "{indigo.700}" }
+    },
+
+    "border": {
+      "default":   { "$value": "oklch(0% 0 0 / 8%)" },
+      "subtle":    { "$value": "oklch(0% 0 0 / 4%)" },
+      "strong":    { "$value": "oklch(0% 0 0 / 15%)" },
+      "brand":     { "$value": "{indigo.600}" },
+      "focus":     { "$value": "{indigo.500}" }
+    },
+
+    "interactive": {
+      "hoverOverlay":    { "$value": "oklch(0% 0 0 / 4%)" },
+      "activeOverlay":   { "$value": "oklch(0% 0 0 / 8%)" },
+      "focusRing":       { "$value": "{indigo.500}" },
+      "focusRingOffset": { "$value": "2px" },
+      "disabledOpacity": { "$value": "0.38" }
+    },
+
+    "status": {
+      "success":       { "$value": "{emerald.600}" },
+      "successBg":     { "$value": "{emerald.50}" },
+      "successBorder": { "$value": "{emerald.200}" },
+      "warning":       { "$value": "{amber.600}" },
+      "warningBg":     { "$value": "{amber.50}" },
+      "warningBorder": { "$value": "{amber.200}" },
+      "danger":        { "$value": "{rose.600}" },
+      "dangerBg":      { "$value": "{rose.50}" },
+      "dangerBorder":  { "$value": "{rose.200}" },
+      "info":          { "$value": "{indigo.600}" },
+      "infoBg":        { "$value": "{indigo.50}" },
+      "infoBorder":    { "$value": "{indigo.200}" },
+      "neutral":       { "$value": "{neutral.500}" },
+      "neutralBg":     { "$value": "{neutral.50}" },
+      "neutralBorder": { "$value": "{neutral.200}" }
+    },
+
+    "risk": {
+      "$description": "5-tier risk system. Desaturated to avoid alarm fatigue. Critical is distinct from danger (system error).",
+      "critical":     { "$value": "{rose.800}" },
+      "criticalBg":   { "$value": "{rose.50}" },
+      "high":         { "$value": "{rose.600}" },
+      "highBg":       { "$value": "{rose.50}" },
+      "medium":       { "$value": "{amber.700}" },
+      "mediumBg":     { "$value": "{amber.50}" },
+      "low":          { "$value": "{emerald.600}" },
+      "lowBg":        { "$value": "{emerald.50}" },
+      "minimal":      { "$value": "{neutral.400}" },
+      "minimalBg":    { "$value": "{neutral.50}" }
+    },
+
+    "confidence": {
+      "$description": "AI confidence indicators — separate visual language from risk to avoid conflation.",
+      "high":      { "$value": "{teal.600}" },
+      "highBg":    { "$value": "{teal.50}" },
+      "medium":    { "$value": "{amber.600}" },
+      "mediumBg":  { "$value": "{amber.50}" },
+      "low":       { "$value": "{neutral.400}" },
+      "lowBg":     { "$value": "{neutral.100}" }
+    },
+
+    "trend": {
+      "positive":   { "$value": "{emerald.600}" },
+      "negative":   { "$value": "{rose.600}" },
+      "flat":       { "$value": "{neutral.400}" }
+    },
+
+    "chart": {
+      "$description": "8-color data viz palette. OKLCH-matched lightness (~58%) for equal visual weight. Colorblind-safe.",
+      "series1": { "$value": "oklch(58% 0.165 275)" },
+      "series2": { "$value": "oklch(58% 0.105 185)" },
+      "series3": { "$value": "oklch(65% 0.145 55)" },
+      "series4": { "$value": "oklch(58% 0.155 300)" },
+      "series5": { "$value": "oklch(55% 0.140 25)" },
+      "series6": { "$value": "oklch(62% 0.100 200)" },
+      "series7": { "$value": "oklch(58% 0.130 145)" },
+      "series8": { "$value": "oklch(60% 0.120 340)" }
+    }
+  },
+
+  "dark": {
+    "$description": "Crafted night experience. Warm dark base, subtle depth layers, reduced contrast for 8hr sessions.",
+
+    "surface": {
+      "page":          { "$value": "oklch(13% 0.008 265)" },
+      "card":          { "$value": "oklch(17% 0.010 265)" },
+      "cardHover":     { "$value": "oklch(19% 0.010 265)" },
+      "panel":         { "$value": "oklch(17% 0.010 265)" },
+      "inset":         { "$value": "oklch(11% 0.005 265)" },
+      "overlay":       { "$value": "oklch(0% 0 0 / 70%)" },
+      "sidebar":       { "$value": "oklch(11% 0.005 265)" },
+      "topbar":        { "$value": "oklch(17% 0.010 265)" }
+    },
+
+    "text": {
+      "primary":    { "$value": "oklch(90% 0.005 270)" },
+      "secondary":  { "$value": "oklch(68% 0.008 270)" },
+      "tertiary":   { "$value": "oklch(50% 0.008 270)" },
+      "disabled":   { "$value": "oklch(38% 0.005 270)" },
+      "inverse":    { "$value": "{neutral.900}" },
+      "brand":      { "$value": "{indigo.400}" },
+      "onBrand":    { "$value": "{neutral.0}" },
+      "link":       { "$value": "{indigo.400}" },
+      "linkHover":  { "$value": "{indigo.300}" }
+    },
+
+    "border": {
+      "default":   { "$value": "oklch(100% 0 0 / 8%)" },
+      "subtle":    { "$value": "oklch(100% 0 0 / 4%)" },
+      "strong":    { "$value": "oklch(100% 0 0 / 15%)" },
+      "brand":     { "$value": "{indigo.500}" },
+      "focus":     { "$value": "{indigo.400}" }
+    },
+
+    "interactive": {
+      "hoverOverlay":    { "$value": "oklch(100% 0 0 / 5%)" },
+      "activeOverlay":   { "$value": "oklch(100% 0 0 / 10%)" },
+      "focusRing":       { "$value": "{indigo.400}" },
+      "focusRingOffset": { "$value": "2px" },
+      "disabledOpacity": { "$value": "0.38" }
+    },
+
+    "status": {
+      "success":       { "$value": "{emerald.400}" },
+      "successBg":     { "$value": "oklch(54% 0.09 155 / 12%)" },
+      "successBorder": { "$value": "oklch(54% 0.09 155 / 20%)" },
+      "warning":       { "$value": "{amber.400}" },
+      "warningBg":     { "$value": "oklch(65% 0.145 55 / 12%)" },
+      "warningBorder": { "$value": "oklch(65% 0.145 55 / 20%)" },
+      "danger":        { "$value": "{rose.400}" },
+      "dangerBg":      { "$value": "oklch(55% 0.14 25 / 12%)" },
+      "dangerBorder":  { "$value": "oklch(55% 0.14 25 / 20%)" },
+      "info":          { "$value": "{indigo.400}" },
+      "infoBg":        { "$value": "oklch(50% 0.175 275 / 12%)" },
+      "infoBorder":    { "$value": "oklch(50% 0.175 275 / 20%)" },
+      "neutral":       { "$value": "oklch(68% 0.008 270)" },
+      "neutralBg":     { "$value": "oklch(100% 0 0 / 5%)" },
+      "neutralBorder": { "$value": "oklch(100% 0 0 / 10%)" }
+    },
+
+    "risk": {
+      "critical":     { "$value": "{rose.300}" },
+      "criticalBg":   { "$value": "oklch(40% 0.095 25 / 20%)" },
+      "high":         { "$value": "{rose.400}" },
+      "highBg":       { "$value": "oklch(55% 0.14 25 / 15%)" },
+      "medium":       { "$value": "{amber.400}" },
+      "mediumBg":     { "$value": "oklch(65% 0.145 55 / 15%)" },
+      "low":          { "$value": "{emerald.400}" },
+      "lowBg":        { "$value": "oklch(54% 0.09 155 / 15%)" },
+      "minimal":      { "$value": "oklch(68% 0.008 270)" },
+      "minimalBg":    { "$value": "oklch(100% 0 0 / 5%)" }
+    },
+
+    "chart": {
+      "series1": { "$value": "oklch(72% 0.130 275)" },
+      "series2": { "$value": "oklch(72% 0.085 185)" },
+      "series3": { "$value": "oklch(78% 0.130 70)" },
+      "series4": { "$value": "oklch(72% 0.120 300)" },
+      "series5": { "$value": "oklch(72% 0.110 25)" },
+      "series6": { "$value": "oklch(72% 0.080 200)" },
+      "series7": { "$value": "oklch(72% 0.100 145)" },
+      "series8": { "$value": "oklch(72% 0.095 340)" }
+    }
+  },
+
+  "elevation": {
+    "$description": "Layered shadows for light mode, luminous borders for dark mode.",
+    "light": {
+      "0": { "$value": "none" },
+      "1": { "$value": "0 1px 2px oklch(0% 0 0 / 4%), 0 1px 3px oklch(0% 0 0 / 6%)" },
+      "2": { "$value": "0 1px 2px oklch(0% 0 0 / 3%), 0 4px 8px oklch(0% 0 0 / 4%), 0 8px 16px oklch(0% 0 0 / 3%)" },
+      "3": { "$value": "0 2px 4px oklch(0% 0 0 / 2%), 0 8px 16px oklch(0% 0 0 / 4%), 0 16px 32px oklch(0% 0 0 / 6%)" },
+      "4": { "$value": "0 4px 8px oklch(0% 0 0 / 3%), 0 12px 24px oklch(0% 0 0 / 5%), 0 24px 48px oklch(0% 0 0 / 8%)" }
+    },
+    "dark": {
+      "0": { "$value": "none" },
+      "1": { "$value": "0 0 0 1px oklch(100% 0 0 / 6%)" },
+      "2": { "$value": "0 0 0 1px oklch(100% 0 0 / 8%), 0 4px 12px oklch(0% 0 0 / 30%)" },
+      "3": { "$value": "0 0 0 1px oklch(100% 0 0 / 10%), 0 8px 24px oklch(0% 0 0 / 40%)" },
+      "4": { "$value": "0 0 0 1px oklch(100% 0 0 / 12%), 0 16px 48px oklch(0% 0 0 / 50%)" }
+    }
+  },
+
+  "motion": {
+    "micro":        { "duration": "120ms", "easing": "cubic-bezier(0.22, 1, 0.36, 1)" },
+    "standard":     { "duration": "200ms", "easing": "cubic-bezier(0.22, 1, 0.36, 1)" },
+    "emphasis":     { "duration": "350ms", "easing": "cubic-bezier(0.16, 1, 0.3, 1)" },
+    "orchestrated": { "duration": "500ms", "easing": "cubic-bezier(0.16, 1, 0.3, 1)" },
+    "staggerDelay": { "$value": "50ms" }
+  },
+
+  "typography": {
+    "display":     { "size": "3rem",      "leading": "1.1",   "tracking": "-0.025em", "weight": "700" },
+    "heading1":    { "size": "1.875rem",  "leading": "1.2",   "tracking": "-0.02em",  "weight": "650" },
+    "heading2":    { "size": "1.5rem",    "leading": "1.25",  "tracking": "-0.015em", "weight": "600" },
+    "heading3":    { "size": "1.25rem",   "leading": "1.3",   "tracking": "-0.01em",  "weight": "600" },
+    "heading4":    { "size": "1.125rem",  "leading": "1.35",  "tracking": "-0.005em", "weight": "600" },
+    "body":        { "size": "0.875rem",  "leading": "1.55",  "tracking": "0",        "weight": "400" },
+    "bodySm":      { "size": "0.8125rem", "leading": "1.5",   "tracking": "0.005em",  "weight": "400" },
+    "caption":     { "size": "0.75rem",   "leading": "1.5",   "tracking": "0.01em",   "weight": "450" },
+    "overline":    { "size": "0.6875rem", "leading": "1.4",   "tracking": "0.06em",   "weight": "550", "transform": "uppercase" },
+    "code":        { "size": "0.8125rem", "leading": "1.6",   "tracking": "0",        "weight": "400", "family": "mono" },
+    "tabular":     { "size": "0.875rem",  "leading": "1.5",   "tracking": "0",        "weight": "450", "numericVariant": "tabular-nums" },
+    "label":       { "size": "0.8125rem", "leading": "1",     "tracking": "0.01em",   "weight": "500" },
+    "tableHeader": { "size": "0.6875rem", "leading": "1",     "tracking": "0.05em",   "weight": "600", "transform": "uppercase" }
+  },
+
+  "layout": {
+    "sidebar": {
+      "widthCollapsed": { "$value": "64px" },
+      "widthExpanded":  { "$value": "260px" }
+    },
+    "topbar": {
+      "height": { "$value": "56px" }
+    },
+    "content": {
+      "maxNarrow":  { "$value": "768px" },
+      "maxDefault": { "$value": "1200px" },
+      "maxWide":    { "$value": "1440px" },
+      "gutter":     { "$value": "clamp(16px, 2vw, 32px)" }
+    },
+    "table": {
+      "denseCellY":        { "$value": "6px" },
+      "denseCellX":        { "$value": "12px" },
+      "comfortableCellY":  { "$value": "12px" },
+      "comfortableCellX":  { "$value": "16px" }
+    }
+  }
+}

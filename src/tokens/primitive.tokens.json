@@ -1,0 +1,168 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "$name": "Nexus Primitive Tokens",
+  "$description": "OKLCH-native foundational values. Perceptually uniform, P3-gamut aware. Never reference directly in components.",
+
+  "color": {
+    "$type": "color",
+    "$description": "All colors in OKLCH for perceptual uniformity. Neutrals carry a warm violet undertone (~270° hue) inspired by Linear/Notion.",
+
+    "neutral": {
+      "$description": "Warm neutral ramp. Slight violet undertone (hue 270) that feels refined without being colored. Chroma decreases at extremes.",
+      "0":   { "$value": "oklch(100% 0 0)" },
+      "25":  { "$value": "oklch(98.5% 0.003 270)" },
+      "50":  { "$value": "oklch(97% 0.005 270)" },
+      "100": { "$value": "oklch(94% 0.008 270)" },
+      "150": { "$value": "oklch(91% 0.008 270)" },
+      "200": { "$value": "oklch(87% 0.010 270)" },
+      "300": { "$value": "oklch(78% 0.010 270)" },
+      "400": { "$value": "oklch(66% 0.010 265)" },
+      "500": { "$value": "oklch(55% 0.012 265)" },
+      "600": { "$value": "oklch(45% 0.012 265)" },
+      "700": { "$value": "oklch(37% 0.012 265)" },
+      "800": { "$value": "oklch(27% 0.012 265)" },
+      "900": { "$value": "oklch(20% 0.010 265)" },
+      "950": { "$value": "oklch(15% 0.008 265)" },
+      "1000": { "$value": "oklch(11% 0.005 265)" }
+    },
+
+    "indigo": {
+      "$description": "Primary brand. Deep indigo (~275° hue) — more sophisticated than generic SaaS blue. Authoritative, trustworthy.",
+      "50":  { "$value": "oklch(97% 0.015 275)" },
+      "100": { "$value": "oklch(93% 0.035 275)" },
+      "200": { "$value": "oklch(87% 0.065 275)" },
+      "300": { "$value": "oklch(78% 0.105 275)" },
+      "400": { "$value": "oklch(68% 0.140 275)" },
+      "500": { "$value": "oklch(58% 0.165 275)" },
+      "600": { "$value": "oklch(50% 0.175 275)" },
+      "700": { "$value": "oklch(43% 0.160 275)" },
+      "800": { "$value": "oklch(36% 0.130 275)" },
+      "900": { "$value": "oklch(30% 0.100 275)" },
+      "950": { "$value": "oklch(22% 0.065 275)" }
+    },
+
+    "teal": {
+      "$description": "Accent. Muted teal (~185° hue) — calm, analytical, complements indigo without competing.",
+      "50":  { "$value": "oklch(97% 0.015 185)" },
+      "100": { "$value": "oklch(93% 0.035 185)" },
+      "200": { "$value": "oklch(87% 0.060 185)" },
+      "300": { "$value": "oklch(78% 0.085 185)" },
+      "400": { "$value": "oklch(70% 0.100 185)" },
+      "500": { "$value": "oklch(62% 0.105 185)" },
+      "600": { "$value": "oklch(54% 0.095 185)" },
+      "700": { "$value": "oklch(46% 0.080 185)" },
+      "800": { "$value": "oklch(38% 0.065 185)" },
+      "900": { "$value": "oklch(30% 0.045 185)" },
+      "950": { "$value": "oklch(22% 0.030 185)" }
+    },
+
+    "emerald": {
+      "$description": "Success/positive. Desaturated green — present but not shouting.",
+      "50":  { "$value": "oklch(97% 0.015 155)" },
+      "100": { "$value": "oklch(93% 0.035 155)" },
+      "200": { "$value": "oklch(87% 0.060 155)" },
+      "300": { "$value": "oklch(78% 0.085 155)" },
+      "400": { "$value": "oklch(70% 0.100 155)" },
+      "500": { "$value": "oklch(62% 0.100 155)" },
+      "600": { "$value": "oklch(54% 0.090 155)" },
+      "700": { "$value": "oklch(46% 0.075 155)" },
+      "800": { "$value": "oklch(38% 0.060 155)" },
+      "900": { "$value": "oklch(30% 0.040 155)" }
+    },
+
+    "amber": {
+      "$description": "Warning/caution. Warm amber — clearly distinct from red, reads as 'attention needed'.",
+      "50":  { "$value": "oklch(97% 0.020 85)" },
+      "100": { "$value": "oklch(93% 0.050 85)" },
+      "200": { "$value": "oklch(88% 0.090 80)" },
+      "300": { "$value": "oklch(82% 0.130 75)" },
+      "400": { "$value": "oklch(78% 0.150 70)" },
+      "500": { "$value": "oklch(74% 0.155 65)" },
+      "600": { "$value": "oklch(65% 0.145 55)" },
+      "700": { "$value": "oklch(55% 0.115 50)" },
+      "800": { "$value": "oklch(46% 0.090 50)" },
+      "900": { "$value": "oklch(38% 0.065 50)" }
+    },
+
+    "rose": {
+      "$description": "Danger/error. Desaturated warm red (~25° hue, chroma ~0.14) — clearly red but does NOT trigger alarm fatigue in 8-hour analyst sessions.",
+      "50":  { "$value": "oklch(97% 0.012 25)" },
+      "100": { "$value": "oklch(93% 0.030 25)" },
+      "200": { "$value": "oklch(88% 0.060 25)" },
+      "300": { "$value": "oklch(80% 0.095 25)" },
+      "400": { "$value": "oklch(72% 0.125 25)" },
+      "500": { "$value": "oklch(63% 0.140 25)" },
+      "600": { "$value": "oklch(55% 0.140 25)" },
+      "700": { "$value": "oklch(47% 0.120 25)" },
+      "800": { "$value": "oklch(40% 0.095 25)" },
+      "900": { "$value": "oklch(33% 0.070 25)" }
+    },
+
+    "violet": {
+      "$description": "AI/intelligence indicator. Distinctive violet that signals 'AI-generated' without alarming.",
+      "50":  { "$value": "oklch(97% 0.015 300)" },
+      "100": { "$value": "oklch(93% 0.040 300)" },
+      "200": { "$value": "oklch(87% 0.075 300)" },
+      "300": { "$value": "oklch(78% 0.115 300)" },
+      "400": { "$value": "oklch(68% 0.145 300)" },
+      "500": { "$value": "oklch(58% 0.155 300)" },
+      "600": { "$value": "oklch(50% 0.145 300)" },
+      "700": { "$value": "oklch(42% 0.120 300)" },
+      "800": { "$value": "oklch(35% 0.095 300)" },
+      "900": { "$value": "oklch(28% 0.065 300)" }
+    }
+  },
+
+  "font": {
+    "$type": "fontFamily",
+    "sans":  { "$value": "'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" },
+    "mono":  { "$value": "'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace" },
+    "heading": { "$value": "'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }
+  },
+
+  "radius": {
+    "$type": "dimension",
+    "none": { "$value": "0" },
+    "xs":   { "$value": "0.1875rem" },
+    "sm":   { "$value": "0.3125rem" },
+    "md":   { "$value": "0.5rem" },
+    "lg":   { "$value": "0.625rem" },
+    "xl":   { "$value": "0.875rem" },
+    "2xl":  { "$value": "1.125rem" },
+    "full": { "$value": "9999px" }
+  },
+
+  "space": {
+    "$type": "dimension",
+    "px":   { "$value": "1px" },
+    "0.5":  { "$value": "2px" },
+    "1":    { "$value": "4px" },
+    "1.5":  { "$value": "6px" },
+    "2":    { "$value": "8px" },
+    "2.5":  { "$value": "10px" },
+    "3":    { "$value": "12px" },
+    "4":    { "$value": "16px" },
+    "5":    { "$value": "20px" },
+    "6":    { "$value": "24px" },
+    "8":    { "$value": "32px" },
+    "10":   { "$value": "40px" },
+    "12":   { "$value": "48px" },
+    "16":   { "$value": "64px" },
+    "20":   { "$value": "80px" },
+    "24":   { "$value": "96px" }
+  },
+
+  "zIndex": {
+    "$type": "number",
+    "hide":     { "$value": -1 },
+    "base":     { "$value": 0 },
+    "raised":   { "$value": 1 },
+    "dropdown": { "$value": 100 },
+    "sticky":   { "$value": 200 },
+    "overlay":  { "$value": 300 },
+    "modal":    { "$value": 400 },
+    "popover":  { "$value": 500 },
+    "toast":    { "$value": 600 },
+    "tooltip":  { "$value": 700 }
+  }
+}

@@ -4,127 +4,723 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   NEXUS DESIGN SYSTEM — OKLCH-NATIVE TOKENS
+
+   Architecture:
+     1. Primitives   — raw OKLCH color ramps, spacing, radius
+     2. Semantics    — theme-aware mappings (light/dark)
+     3. Components   — shadcn bridge + Nexus-specific utilities
+
+   Color philosophy:
+     - Warm neutral ramp (violet undertone ~270° hue)
+     - Deep indigo primary (~275° hue) — not generic blue
+     - Muted teal accent (~185° hue)
+     - Desaturated status colors to avoid alarm fatigue
+     - OKLCH for perceptual uniformity across hues
+   ============================================================ */
+
+
+/* ────────────────────────────────────────────────────────────
+   LAYER 1: PRIMITIVES
+   Raw values. Never use these directly in components.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* ── Neutral: warm gray, slight violet undertone ── */
+  --nx-neutral-0:    oklch(100% 0 0);
+  --nx-neutral-25:   oklch(98.5% 0.003 270);
+  --nx-neutral-50:   oklch(97% 0.005 270);
+  --nx-neutral-100:  oklch(94% 0.008 270);
+  --nx-neutral-150:  oklch(91% 0.008 270);
+  --nx-neutral-200:  oklch(87% 0.010 270);
+  --nx-neutral-300:  oklch(78% 0.010 270);
+  --nx-neutral-400:  oklch(66% 0.010 265);
+  --nx-neutral-500:  oklch(55% 0.012 265);
+  --nx-neutral-600:  oklch(45% 0.012 265);
+  --nx-neutral-700:  oklch(37% 0.012 265);
+  --nx-neutral-800:  oklch(27% 0.012 265);
+  --nx-neutral-900:  oklch(20% 0.010 265);
+  --nx-neutral-950:  oklch(15% 0.008 265);
+  --nx-neutral-1000: oklch(11% 0.005 265);
+
+  /* ── Indigo: primary brand ── */
+  --nx-indigo-50:  oklch(97% 0.015 275);
+  --nx-indigo-100: oklch(93% 0.035 275);
+  --nx-indigo-200: oklch(87% 0.065 275);
+  --nx-indigo-300: oklch(78% 0.105 275);
+  --nx-indigo-400: oklch(68% 0.140 275);
+  --nx-indigo-500: oklch(58% 0.165 275);
+  --nx-indigo-600: oklch(50% 0.175 275);
+  --nx-indigo-700: oklch(43% 0.160 275);
+  --nx-indigo-800: oklch(36% 0.130 275);
+  --nx-indigo-900: oklch(30% 0.100 275);
+  --nx-indigo-950: oklch(22% 0.065 275);
+
+  /* ── Teal: accent ── */
+  --nx-teal-50:  oklch(97% 0.015 185);
+  --nx-teal-100: oklch(93% 0.035 185);
+  --nx-teal-200: oklch(87% 0.060 185);
+  --nx-teal-300: oklch(78% 0.085 185);
+  --nx-teal-400: oklch(70% 0.100 185);
+  --nx-teal-500: oklch(62% 0.105 185);
+  --nx-teal-600: oklch(54% 0.095 185);
+  --nx-teal-700: oklch(46% 0.080 185);
+  --nx-teal-800: oklch(38% 0.065 185);
+  --nx-teal-900: oklch(30% 0.045 185);
+  --nx-teal-950: oklch(22% 0.030 185);
+
+  /* ── Emerald: success/positive ── */
+  --nx-emerald-50:  oklch(97% 0.015 155);
+  --nx-emerald-100: oklch(93% 0.035 155);
+  --nx-emerald-200: oklch(87% 0.060 155);
+  --nx-emerald-300: oklch(78% 0.085 155);
+  --nx-emerald-400: oklch(70% 0.100 155);
+  --nx-emerald-500: oklch(62% 0.100 155);
+  --nx-emerald-600: oklch(54% 0.090 155);
+  --nx-emerald-700: oklch(46% 0.075 155);
+  --nx-emerald-800: oklch(38% 0.060 155);
+  --nx-emerald-900: oklch(30% 0.040 155);
+
+  /* ── Amber: warning/caution ── */
+  --nx-amber-50:  oklch(97% 0.020 85);
+  --nx-amber-100: oklch(93% 0.050 85);
+  --nx-amber-200: oklch(88% 0.090 80);
+  --nx-amber-300: oklch(82% 0.130 75);
+  --nx-amber-400: oklch(78% 0.150 70);
+  --nx-amber-500: oklch(74% 0.155 65);
+  --nx-amber-600: oklch(65% 0.145 55);
+  --nx-amber-700: oklch(55% 0.115 50);
+  --nx-amber-800: oklch(46% 0.090 50);
+  --nx-amber-900: oklch(38% 0.065 50);
+
+  /* ── Rose: danger/error (desaturated warm red) ── */
+  --nx-rose-50:  oklch(97% 0.012 25);
+  --nx-rose-100: oklch(93% 0.030 25);
+  --nx-rose-200: oklch(88% 0.060 25);
+  --nx-rose-300: oklch(80% 0.095 25);
+  --nx-rose-400: oklch(72% 0.125 25);
+  --nx-rose-500: oklch(63% 0.140 25);
+  --nx-rose-600: oklch(55% 0.140 25);
+  --nx-rose-700: oklch(47% 0.120 25);
+  --nx-rose-800: oklch(40% 0.095 25);
+  --nx-rose-900: oklch(33% 0.070 25);
+
+  /* ── Violet: AI/intelligence signals ── */
+  --nx-violet-50:  oklch(97% 0.015 300);
+  --nx-violet-100: oklch(93% 0.040 300);
+  --nx-violet-200: oklch(87% 0.075 300);
+  --nx-violet-300: oklch(78% 0.115 300);
+  --nx-violet-400: oklch(68% 0.145 300);
+  --nx-violet-500: oklch(58% 0.155 300);
+  --nx-violet-600: oklch(50% 0.145 300);
+  --nx-violet-700: oklch(42% 0.120 300);
+  --nx-violet-800: oklch(35% 0.095 300);
+  --nx-violet-900: oklch(28% 0.065 300);
+
+  /* ── Typography primitives ── */
+  --nx-font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --nx-font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
+
+  /* ── Radius — tighter, more precise ── */
+  --nx-radius-none: 0;
+  --nx-radius-xs:   0.125rem;
+  --nx-radius-sm:   0.25rem;
+  --nx-radius-md:   0.375rem;
+  --nx-radius-lg:   0.5rem;
+  --nx-radius-xl:   0.625rem;
+  --nx-radius-2xl:  0.75rem;
+  --nx-radius-full: 9999px;
+
+  /* ── Layout ── */
+  --nx-sidebar-width-collapsed: 64px;
+  --nx-sidebar-width-expanded: 260px;
+  --nx-topbar-height: 56px;
+  --nx-content-max-width: 1440px;
+  --nx-content-gutter: clamp(16px, 2vw, 32px);
+
+  /* ── Table density ── */
+  --nx-table-dense-y: 6px;
+  --nx-table-dense-x: 12px;
+  --nx-table-comfortable-y: 12px;
+  --nx-table-comfortable-x: 16px;
+
+  /* ── Motion: intent-based ── */
+  --nx-motion-micro: 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  --nx-motion-standard: 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  --nx-motion-emphasis: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  --nx-motion-orchestrated: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  --nx-motion-stagger: 50ms;
+
+  --nx-ease-default: cubic-bezier(0.22, 1, 0.36, 1);
+  --nx-ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+  --nx-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --nx-duration-micro: 120ms;
+  --nx-duration-standard: 200ms;
+  --nx-duration-emphasis: 350ms;
+  --nx-duration-orchestrated: 500ms;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   LAYER 2: LIGHT THEME (default)
+   Philosophy: Monochrome-first. Black is the primary action
+   color. Color appears only for semantic meaning (status,
+   risk, agent identity). Matches landing page aesthetic.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* ── Surfaces — warm whites, barely-there warmth ── */
+  --nx-surface-page:       oklch(98.5% 0.002 270);
+  --nx-surface-card:       oklch(100% 0 0);
+  --nx-surface-card-hover: oklch(98% 0.002 270);
+  --nx-surface-inset:      oklch(97% 0.003 270);
+  --nx-surface-overlay:    oklch(6% 0.005 265 / 60%);
+  --nx-surface-sidebar:    oklch(6% 0.005 265);
+  --nx-surface-topbar:     oklch(100% 0 0);
+
+  /* ── Text — high contrast, tight hierarchy ── */
+  --nx-text-primary:   oklch(8% 0.005 265);
+  --nx-text-secondary: oklch(40% 0.008 265);
+  --nx-text-tertiary:  oklch(58% 0.006 265);
+  --nx-text-disabled:  oklch(75% 0.004 265);
+  --nx-text-inverse:   oklch(100% 0 0);
+  --nx-text-brand:     oklch(8% 0.005 265);
+  --nx-text-on-brand:  oklch(100% 0 0);
+
+  /* ── Borders — structural, not decorative ── */
+  --nx-border-default: oklch(0% 0 0 / 8%);
+  --nx-border-subtle:  oklch(0% 0 0 / 4%);
+  --nx-border-strong:  oklch(0% 0 0 / 14%);
+  --nx-border-brand:   oklch(8% 0.005 265);
+  --nx-border-focus:   oklch(8% 0.005 265);
+
+  /* ── Interactive states ── */
+  --nx-hover-overlay:  oklch(0% 0 0 / 3%);
+  --nx-active-overlay: oklch(0% 0 0 / 7%);
+  --nx-focus-ring:     oklch(8% 0.005 265);
+
+  /* ── Elevation (layered shadows) ── */
+  --nx-elevation-0: none;
+  --nx-elevation-1: 0 1px 2px oklch(0% 0 0 / 4%), 0 1px 3px oklch(0% 0 0 / 6%);
+  --nx-elevation-2: 0 1px 2px oklch(0% 0 0 / 3%), 0 4px 8px oklch(0% 0 0 / 4%), 0 8px 16px oklch(0% 0 0 / 3%);
+  --nx-elevation-3: 0 2px 4px oklch(0% 0 0 / 2%), 0 8px 16px oklch(0% 0 0 / 4%), 0 16px 32px oklch(0% 0 0 / 6%);
+  --nx-elevation-4: 0 4px 8px oklch(0% 0 0 / 3%), 0 12px 24px oklch(0% 0 0 / 5%), 0 24px 48px oklch(0% 0 0 / 8%);
+
+  /* ── Status ── */
+  --nx-status-success:        var(--nx-emerald-600);
+  --nx-status-success-bg:     var(--nx-emerald-50);
+  --nx-status-success-border: var(--nx-emerald-200);
+  --nx-status-warning:        var(--nx-amber-600);
+  --nx-status-warning-bg:     var(--nx-amber-50);
+  --nx-status-warning-border: var(--nx-amber-200);
+  --nx-status-danger:         var(--nx-rose-600);
+  --nx-status-danger-bg:      var(--nx-rose-50);
+  --nx-status-danger-border:  var(--nx-rose-200);
+  --nx-status-info:           var(--nx-indigo-600);
+  --nx-status-info-bg:        var(--nx-indigo-50);
+  --nx-status-info-border:    var(--nx-indigo-200);
+  --nx-status-neutral:        var(--nx-neutral-500);
+  --nx-status-neutral-bg:     var(--nx-neutral-50);
+  --nx-status-neutral-border: var(--nx-neutral-200);
+
+  /* ── Risk (5-tier, desaturated for compliance) ── */
+  --nx-risk-critical:    var(--nx-rose-800);
+  --nx-risk-critical-bg: var(--nx-rose-50);
+  --nx-risk-high:        var(--nx-rose-600);
+  --nx-risk-high-bg:     var(--nx-rose-50);
+  --nx-risk-medium:      var(--nx-amber-700);
+  --nx-risk-medium-bg:   var(--nx-amber-50);
+  --nx-risk-low:         var(--nx-emerald-600);
+  --nx-risk-low-bg:      var(--nx-emerald-50);
+  --nx-risk-minimal:     var(--nx-neutral-400);
+  --nx-risk-minimal-bg:  var(--nx-neutral-50);
+
+  /* ── Confidence (separate visual language from risk) ── */
+  --nx-confidence-high:      var(--nx-teal-600);
+  --nx-confidence-high-bg:   var(--nx-teal-50);
+  --nx-confidence-medium:    var(--nx-amber-600);
+  --nx-confidence-medium-bg: var(--nx-amber-50);
+  --nx-confidence-low:       var(--nx-neutral-400);
+  --nx-confidence-low-bg:    var(--nx-neutral-100);
+
+  /* ── Trend indicators ── */
+  --nx-trend-positive: var(--nx-emerald-600);
+  --nx-trend-negative: var(--nx-rose-600);
+  --nx-trend-flat:     var(--nx-neutral-400);
+
+  /* ── AI indicator — subtle, not flashy ── */
+  --nx-ai-icon:     oklch(40% 0.008 265);
+  --nx-ai-label-bg: oklch(96% 0.002 270);
+  --nx-ai-label-fg: oklch(35% 0.008 265);
+
+  /* ── Chart series (OKLCH-matched lightness ~58%) ── */
+  --nx-chart-1: oklch(58% 0.165 275);
+  --nx-chart-2: oklch(58% 0.105 185);
+  --nx-chart-3: oklch(65% 0.145 55);
+  --nx-chart-4: oklch(58% 0.155 300);
+  --nx-chart-5: oklch(55% 0.140 25);
+  --nx-chart-6: oklch(62% 0.100 200);
+  --nx-chart-7: oklch(58% 0.130 145);
+  --nx-chart-8: oklch(60% 0.120 340);
+
+  /* ── shadcn bridge — monochrome primary ── */
+  --background:           var(--nx-surface-page);
+  --foreground:           var(--nx-text-primary);
+  --card:                 var(--nx-surface-card);
+  --card-foreground:      var(--nx-text-primary);
+  --popover:              var(--nx-surface-card);
+  --popover-foreground:   var(--nx-text-primary);
+  --primary:              oklch(8% 0.005 265);
+  --primary-foreground:   oklch(100% 0 0);
+  --secondary:            oklch(96% 0.002 270);
+  --secondary-foreground: oklch(8% 0.005 265);
+  --muted:                oklch(96% 0.002 270);
+  --muted-foreground:     var(--nx-text-secondary);
+  --accent:               oklch(96% 0.002 270);
+  --accent-foreground:    oklch(8% 0.005 265);
+  --destructive:          var(--nx-rose-600);
+  --border:               var(--nx-border-default);
+  --input:                var(--nx-border-strong);
+  --ring:                 var(--nx-focus-ring);
+
+  --chart-1: var(--nx-chart-1);
+  --chart-2: var(--nx-chart-2);
+  --chart-3: var(--nx-chart-3);
+  --chart-4: var(--nx-chart-4);
+  --chart-5: var(--nx-chart-5);
+
+  --sidebar:                    var(--nx-surface-sidebar);
+  --sidebar-foreground:         oklch(60% 0.006 270);
+  --sidebar-primary:            oklch(100% 0 0);
+  --sidebar-primary-foreground: oklch(8% 0.005 265);
+  --sidebar-accent:             oklch(100% 0 0 / 7%);
+  --sidebar-accent-foreground:  oklch(100% 0 0);
+  --sidebar-border:             oklch(100% 0 0 / 8%);
+  --sidebar-ring:               oklch(100% 0 0 / 20%);
+
+  --radius: var(--nx-radius-md);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   LAYER 2: DARK THEME
+   Crafted night experience — NOT a mechanical inversion.
+   Warm dark base, subtle depth layers, capped contrast.
+   ──────────────────────────────────────────────────────────── */
+.dark {
+  /* ── Surfaces (3-5% OKLCH lightness steps for subtle depth) ── */
+  --nx-surface-page:       oklch(13% 0.008 265);
+  --nx-surface-card:       oklch(17% 0.010 265);
+  --nx-surface-card-hover: oklch(19% 0.010 265);
+  --nx-surface-inset:      oklch(11% 0.005 265);
+  --nx-surface-overlay:    oklch(0% 0 0 / 70%);
+  --nx-surface-sidebar:    oklch(11% 0.005 265);
+  --nx-surface-topbar:     oklch(17% 0.010 265);
+
+  /* ── Text (capped at 90% lightness to reduce eye strain) ── */
+  --nx-text-primary:   oklch(90% 0.005 270);
+  --nx-text-secondary: oklch(68% 0.008 270);
+  --nx-text-tertiary:  oklch(50% 0.008 270);
+  --nx-text-disabled:  oklch(38% 0.005 270);
+  --nx-text-inverse:   var(--nx-neutral-900);
+  --nx-text-brand:     var(--nx-indigo-400);
+  --nx-text-on-brand:  var(--nx-neutral-0);
+
+  /* ── Borders (luminous, not dark lines) ── */
+  --nx-border-default: oklch(100% 0 0 / 8%);
+  --nx-border-subtle:  oklch(100% 0 0 / 4%);
+  --nx-border-strong:  oklch(100% 0 0 / 15%);
+  --nx-border-brand:   var(--nx-indigo-500);
+  --nx-border-focus:   var(--nx-indigo-400);
+
+  /* ── Interactive ── */
+  --nx-hover-overlay:  oklch(100% 0 0 / 5%);
+  --nx-active-overlay: oklch(100% 0 0 / 10%);
+  --nx-focus-ring:     var(--nx-indigo-400);
+
+  /* ── Elevation (luminous borders replace shadows) ── */
+  --nx-elevation-0: none;
+  --nx-elevation-1: 0 0 0 1px oklch(100% 0 0 / 6%);
+  --nx-elevation-2: 0 0 0 1px oklch(100% 0 0 / 8%), 0 4px 12px oklch(0% 0 0 / 30%);
+  --nx-elevation-3: 0 0 0 1px oklch(100% 0 0 / 10%), 0 8px 24px oklch(0% 0 0 / 40%);
+  --nx-elevation-4: 0 0 0 1px oklch(100% 0 0 / 12%), 0 16px 48px oklch(0% 0 0 / 50%);
+
+  /* ── Status (alpha-channel backgrounds, standardized 12%/20% opacity) ── */
+  --nx-status-success:        var(--nx-emerald-400);
+  --nx-status-success-bg:     oklch(54% 0.090 155 / 12%);
+  --nx-status-success-border: oklch(54% 0.090 155 / 20%);
+  --nx-status-warning:        var(--nx-amber-400);
+  --nx-status-warning-bg:     oklch(65% 0.145 55 / 12%);
+  --nx-status-warning-border: oklch(65% 0.145 55 / 20%);
+  --nx-status-danger:         var(--nx-rose-400);
+  --nx-status-danger-bg:      oklch(55% 0.140 25 / 12%);
+  --nx-status-danger-border:  oklch(55% 0.140 25 / 20%);
+  --nx-status-info:           var(--nx-indigo-400);
+  --nx-status-info-bg:        oklch(50% 0.175 275 / 12%);
+  --nx-status-info-border:    oklch(50% 0.175 275 / 20%);
+  --nx-status-neutral:        oklch(68% 0.008 270);
+  --nx-status-neutral-bg:     oklch(100% 0 0 / 5%);
+  --nx-status-neutral-border: oklch(100% 0 0 / 10%);
+
+  /* ── Risk (dark) ── */
+  --nx-risk-critical:    var(--nx-rose-300);
+  --nx-risk-critical-bg: oklch(40% 0.095 25 / 20%);
+  --nx-risk-high:        var(--nx-rose-400);
+  --nx-risk-high-bg:     oklch(55% 0.140 25 / 15%);
+  --nx-risk-medium:      var(--nx-amber-400);
+  --nx-risk-medium-bg:   oklch(65% 0.145 55 / 15%);
+  --nx-risk-low:         var(--nx-emerald-400);
+  --nx-risk-low-bg:      oklch(54% 0.090 155 / 15%);
+  --nx-risk-minimal:     oklch(68% 0.008 270);
+  --nx-risk-minimal-bg:  oklch(100% 0 0 / 5%);
+
+  /* ── Confidence (dark) ── */
+  --nx-confidence-high:      var(--nx-teal-400);
+  --nx-confidence-high-bg:   oklch(54% 0.095 185 / 12%);
+  --nx-confidence-medium:    var(--nx-amber-400);
+  --nx-confidence-medium-bg: oklch(65% 0.145 55 / 12%);
+  --nx-confidence-low:       oklch(50% 0.008 270);
+  --nx-confidence-low-bg:    oklch(100% 0 0 / 5%);
+
+  /* ── Trend (dark) ── */
+  --nx-trend-positive: var(--nx-emerald-400);
+  --nx-trend-negative: var(--nx-rose-400);
+  --nx-trend-flat:     oklch(50% 0.008 270);
+
+  /* ── AI (dark) ── */
+  --nx-ai-icon:     var(--nx-violet-400);
+  --nx-ai-label-bg: oklch(58% 0.155 300 / 12%);
+  --nx-ai-label-fg: var(--nx-violet-300);
+
+  /* ── Chart (dark — boosted lightness ~72%) ── */
+  --nx-chart-1: oklch(72% 0.130 275);
+  --nx-chart-2: oklch(72% 0.085 185);
+  --nx-chart-3: oklch(78% 0.130 70);
+  --nx-chart-4: oklch(72% 0.120 300);
+  --nx-chart-5: oklch(72% 0.110 25);
+  --nx-chart-6: oklch(72% 0.080 200);
+  --nx-chart-7: oklch(72% 0.100 145);
+  --nx-chart-8: oklch(72% 0.095 340);
+
+  /* ── shadcn bridge (dark) — monochrome primary inverts to white ── */
+  --background:           var(--nx-surface-page);
+  --foreground:           var(--nx-text-primary);
+  --card:                 var(--nx-surface-card);
+  --card-foreground:      var(--nx-text-primary);
+  --popover:              var(--nx-surface-card);
+  --popover-foreground:   var(--nx-text-primary);
+  --primary:              oklch(95% 0.003 270);
+  --primary-foreground:   oklch(8% 0.005 265);
+  --secondary:            oklch(22% 0.010 265);
+  --secondary-foreground: oklch(90% 0.005 270);
+  --muted:                oklch(22% 0.010 265);
+  --muted-foreground:     var(--nx-text-secondary);
+  --accent:               oklch(100% 0 0 / 8%);
+  --accent-foreground:    oklch(90% 0.005 270);
+  --destructive:          var(--nx-rose-400);
+  --border:               var(--nx-border-default);
+  --input:                var(--nx-border-strong);
+  --ring:                 var(--nx-focus-ring);
+
+  --chart-1: var(--nx-chart-1);
+  --chart-2: var(--nx-chart-2);
+  --chart-3: var(--nx-chart-3);
+  --chart-4: var(--nx-chart-4);
+  --chart-5: var(--nx-chart-5);
+
+  --sidebar:                    var(--nx-surface-sidebar);
+  --sidebar-foreground:         oklch(55% 0.006 270);
+  --sidebar-primary:            oklch(90% 0.003 270);
+  --sidebar-primary-foreground: oklch(8% 0.005 265);
+  --sidebar-accent:             oklch(100% 0 0 / 7%);
+  --sidebar-accent-foreground:  oklch(90% 0.005 270);
+  --sidebar-border:             oklch(100% 0 0 / 8%);
+  --sidebar-ring:               oklch(100% 0 0 / 20%);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   LAYER 3: TAILWIND v4 @theme
+   Exposes Nexus tokens as utility classes.
+   ──────────────────────────────────────────────────────────── */
 @theme inline {
+  /* ── shadcn core (required) ── */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+  --font-sans: var(--nx-font-sans);
+  --font-mono: var(--nx-font-mono);
+  --font-heading: var(--nx-font-sans);
+
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* ── Nexus palette utilities: bg-nx-indigo-600, text-nx-neutral-900, etc. ── */
+  --color-nx-neutral-0:    var(--nx-neutral-0);
+  --color-nx-neutral-25:   var(--nx-neutral-25);
+  --color-nx-neutral-50:   var(--nx-neutral-50);
+  --color-nx-neutral-100:  var(--nx-neutral-100);
+  --color-nx-neutral-150:  var(--nx-neutral-150);
+  --color-nx-neutral-200:  var(--nx-neutral-200);
+  --color-nx-neutral-300:  var(--nx-neutral-300);
+  --color-nx-neutral-400:  var(--nx-neutral-400);
+  --color-nx-neutral-500:  var(--nx-neutral-500);
+  --color-nx-neutral-600:  var(--nx-neutral-600);
+  --color-nx-neutral-700:  var(--nx-neutral-700);
+  --color-nx-neutral-800:  var(--nx-neutral-800);
+  --color-nx-neutral-900:  var(--nx-neutral-900);
+  --color-nx-neutral-950:  var(--nx-neutral-950);
+  --color-nx-neutral-1000: var(--nx-neutral-1000);
+
+  --color-nx-indigo-50:  var(--nx-indigo-50);
+  --color-nx-indigo-100: var(--nx-indigo-100);
+  --color-nx-indigo-200: var(--nx-indigo-200);
+  --color-nx-indigo-300: var(--nx-indigo-300);
+  --color-nx-indigo-400: var(--nx-indigo-400);
+  --color-nx-indigo-500: var(--nx-indigo-500);
+  --color-nx-indigo-600: var(--nx-indigo-600);
+  --color-nx-indigo-700: var(--nx-indigo-700);
+  --color-nx-indigo-800: var(--nx-indigo-800);
+  --color-nx-indigo-900: var(--nx-indigo-900);
+  --color-nx-indigo-950: var(--nx-indigo-950);
+
+  --color-nx-teal-50:  var(--nx-teal-50);
+  --color-nx-teal-100: var(--nx-teal-100);
+  --color-nx-teal-200: var(--nx-teal-200);
+  --color-nx-teal-300: var(--nx-teal-300);
+  --color-nx-teal-400: var(--nx-teal-400);
+  --color-nx-teal-500: var(--nx-teal-500);
+  --color-nx-teal-600: var(--nx-teal-600);
+  --color-nx-teal-700: var(--nx-teal-700);
+  --color-nx-teal-800: var(--nx-teal-800);
+  --color-nx-teal-900: var(--nx-teal-900);
+  --color-nx-teal-950: var(--nx-teal-950);
+
+  --color-nx-emerald-50:  var(--nx-emerald-50);
+  --color-nx-emerald-100: var(--nx-emerald-100);
+  --color-nx-emerald-200: var(--nx-emerald-200);
+  --color-nx-emerald-300: var(--nx-emerald-300);
+  --color-nx-emerald-400: var(--nx-emerald-400);
+  --color-nx-emerald-500: var(--nx-emerald-500);
+  --color-nx-emerald-600: var(--nx-emerald-600);
+  --color-nx-emerald-700: var(--nx-emerald-700);
+  --color-nx-emerald-800: var(--nx-emerald-800);
+  --color-nx-emerald-900: var(--nx-emerald-900);
+
+  --color-nx-amber-50:  var(--nx-amber-50);
+  --color-nx-amber-100: var(--nx-amber-100);
+  --color-nx-amber-200: var(--nx-amber-200);
+  --color-nx-amber-300: var(--nx-amber-300);
+  --color-nx-amber-400: var(--nx-amber-400);
+  --color-nx-amber-500: var(--nx-amber-500);
+  --color-nx-amber-600: var(--nx-amber-600);
+  --color-nx-amber-700: var(--nx-amber-700);
+  --color-nx-amber-800: var(--nx-amber-800);
+  --color-nx-amber-900: var(--nx-amber-900);
+
+  --color-nx-rose-50:  var(--nx-rose-50);
+  --color-nx-rose-100: var(--nx-rose-100);
+  --color-nx-rose-200: var(--nx-rose-200);
+  --color-nx-rose-300: var(--nx-rose-300);
+  --color-nx-rose-400: var(--nx-rose-400);
+  --color-nx-rose-500: var(--nx-rose-500);
+  --color-nx-rose-600: var(--nx-rose-600);
+  --color-nx-rose-700: var(--nx-rose-700);
+  --color-nx-rose-800: var(--nx-rose-800);
+  --color-nx-rose-900: var(--nx-rose-900);
+
+  --color-nx-violet-50:  var(--nx-violet-50);
+  --color-nx-violet-100: var(--nx-violet-100);
+  --color-nx-violet-200: var(--nx-violet-200);
+  --color-nx-violet-300: var(--nx-violet-300);
+  --color-nx-violet-400: var(--nx-violet-400);
+  --color-nx-violet-500: var(--nx-violet-500);
+  --color-nx-violet-600: var(--nx-violet-600);
+  --color-nx-violet-700: var(--nx-violet-700);
+  --color-nx-violet-800: var(--nx-violet-800);
+  --color-nx-violet-900: var(--nx-violet-900);
+
+  /* ── Semantic color utilities ── */
+  --color-nx-status-success:    var(--nx-status-success);
+  --color-nx-status-success-bg: var(--nx-status-success-bg);
+  --color-nx-status-warning:    var(--nx-status-warning);
+  --color-nx-status-warning-bg: var(--nx-status-warning-bg);
+  --color-nx-status-danger:     var(--nx-status-danger);
+  --color-nx-status-danger-bg:  var(--nx-status-danger-bg);
+  --color-nx-status-info:       var(--nx-status-info);
+  --color-nx-status-info-bg:    var(--nx-status-info-bg);
+  --color-nx-status-neutral:    var(--nx-status-neutral);
+  --color-nx-status-neutral-bg: var(--nx-status-neutral-bg);
+
+  --color-nx-risk-critical:    var(--nx-risk-critical);
+  --color-nx-risk-critical-bg: var(--nx-risk-critical-bg);
+  --color-nx-risk-high:        var(--nx-risk-high);
+  --color-nx-risk-high-bg:     var(--nx-risk-high-bg);
+  --color-nx-risk-medium:      var(--nx-risk-medium);
+  --color-nx-risk-medium-bg:   var(--nx-risk-medium-bg);
+  --color-nx-risk-low:         var(--nx-risk-low);
+  --color-nx-risk-low-bg:      var(--nx-risk-low-bg);
+  --color-nx-risk-minimal:     var(--nx-risk-minimal);
+  --color-nx-risk-minimal-bg:  var(--nx-risk-minimal-bg);
+
+  --color-nx-confidence-high:      var(--nx-confidence-high);
+  --color-nx-confidence-high-bg:   var(--nx-confidence-high-bg);
+  --color-nx-confidence-medium:    var(--nx-confidence-medium);
+  --color-nx-confidence-medium-bg: var(--nx-confidence-medium-bg);
+  --color-nx-confidence-low:       var(--nx-confidence-low);
+  --color-nx-confidence-low-bg:    var(--nx-confidence-low-bg);
+
+  --color-nx-trend-positive: var(--nx-trend-positive);
+  --color-nx-trend-negative: var(--nx-trend-negative);
+  --color-nx-trend-flat:     var(--nx-trend-flat);
+
+  --color-nx-ai-icon:     var(--nx-ai-icon);
+  --color-nx-ai-label-bg: var(--nx-ai-label-bg);
+  --color-nx-ai-label-fg: var(--nx-ai-label-fg);
+
+  /* ── Radius ── */
+  --radius-xs:   var(--nx-radius-xs);
+  --radius-sm:   var(--nx-radius-sm);
+  --radius-md:   var(--nx-radius-md);
+  --radius-lg:   var(--nx-radius-lg);
+  --radius-xl:   var(--nx-radius-xl);
+  --radius-2xl:  var(--nx-radius-2xl);
+  --radius-3xl:  var(--nx-radius-2xl);
+  --radius-4xl:  var(--nx-radius-2xl);
+  --radius-full: var(--nx-radius-full);
+
+  /* ── Elevation as shadow utilities ── */
+  --shadow-elevation-0: var(--nx-elevation-0);
+  --shadow-elevation-1: var(--nx-elevation-1);
+  --shadow-elevation-2: var(--nx-elevation-2);
+  --shadow-elevation-3: var(--nx-elevation-3);
+  --shadow-elevation-4: var(--nx-elevation-4);
 }
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
+/* ────────────────────────────────────────────────────────────
+   BASE LAYER
+   ──────────────────────────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--nx-font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.006em;
   }
+
   html {
     @apply font-sans;
+  }
+
+  /* ── Typography — tighter, more authoritative ── */
+  h1 { font-size: 1.5rem;    font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; }
+  h2 { font-size: 1.25rem;   font-weight: 700; line-height: 1.2;  letter-spacing: -0.02em; }
+  h3 { font-size: 1rem;      font-weight: 650; line-height: 1.25; letter-spacing: -0.015em; }
+  h4 { font-size: 0.875rem;  font-weight: 650; line-height: 1.3;  letter-spacing: -0.01em; }
+
+  /* ── Tabular numbers for data contexts ── */
+  .tabular-nums,
+  td,
+  th {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Focus visible ring ── */
+  :focus-visible {
+    outline: 2px solid var(--nx-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   MOTION: reduced-motion support
+   ──────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --nx-motion-micro: 0ms;
+    --nx-motion-standard: 0ms;
+    --nx-motion-emphasis: 0ms;
+    --nx-motion-orchestrated: 0ms;
+    --nx-motion-stagger: 0ms;
+    --nx-duration-micro: 0ms;
+    --nx-duration-standard: 0ms;
+    --nx-duration-emphasis: 0ms;
+    --nx-duration-orchestrated: 0ms;
+  }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   COMPONENT ANIMATIONS
+   Shared keyframes — referenced by className in components.
+   ──────────────────────────────────────────────────────────── */
+
+/* Sidebar logo dot pulse */
+@keyframes logo-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+.nx-logo-pulse {
+  animation: logo-pulse 2s ease-in-out infinite;
+}
+
+/* AI assistant floating button */
+.ai-btn-gradient {
+  background: linear-gradient(135deg, var(--nx-indigo-600), var(--nx-indigo-700));
+}
+
+@keyframes ai-pulse-glow {
+  0%  { box-shadow: 0 0 0 0 oklch(68% 0.145 300 / 40%); }
+  70% { box-shadow: 0 0 0 12px oklch(68% 0.145 300 / 0%); }
+  100% { box-shadow: 0 0 0 0 oklch(68% 0.145 300 / 0%); }
+}
+
+.ai-pulse-ring {
+  animation: ai-pulse-glow 2s ease-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-logo-pulse,
+  .ai-pulse-ring {
+    animation: none;
   }
 }
