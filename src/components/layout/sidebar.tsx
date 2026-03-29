@@ -1,46 +1,51 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { navSections } from "@/config/navigation";
 import { useSidebarStore } from "@/stores/sidebar-store";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ChevronsLeft, ChevronsRight, ChevronRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, LogOut } from "lucide-react";
 import type { NavItem } from "@/types";
 
-// ── Shared item styles ──
-const itemBase = "group flex items-center gap-2 rounded-md text-[12.5px] transition-colors duration-150";
-const itemPy = "py-[5px]";
-const itemPx = "px-2.5";
-
-// ── Nav Link ──
-function NavLink({ item, isOpen, isActive, indent = false }: { item: NavItem; isOpen: boolean; isActive: boolean; indent?: boolean }) {
+/* ─── Nav Link ─── */
+function NavLink({ item, isOpen, isActive }: { item: NavItem; isOpen: boolean; isActive: boolean }) {
   const Icon = item.icon;
 
   const link = (
     <Link
       href={item.href}
       className={cn(
-        itemBase, itemPy, itemPx,
-        indent && "pl-8",
+        "group flex items-center gap-2.5 rounded-md px-2.5 text-[12px] transition-all duration-150",
+        isOpen ? "py-1.5" : "py-1.5 justify-center",
         isActive
-          ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-          : "text-sidebar-foreground/60 hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground font-normal"
+          ? "bg-white/8 text-white font-medium"
+          : "text-white/40 hover:bg-white/4 hover:text-white/70"
       )}
     >
-      {Icon && <Icon className={cn("h-3.75 w-3.75 shrink-0", isActive ? "text-sidebar-accent-foreground" : "text-sidebar-foreground/35 group-hover:text-sidebar-foreground/60")} />}
-      {isOpen && <span className="truncate flex-1">{item.title}</span>}
-      {isOpen && item.badge && (
-        <span className="flex h-4 min-w-4 items-center justify-center rounded bg-nx-rose-500/90 px-1 text-[8px] font-bold text-white leading-none">
-          {item.badge}
-        </span>
+      {Icon && (
+        <Icon
+          className={cn(
+            "shrink-0 transition-colors duration-150",
+            isOpen ? "h-3.75 w-3.75" : "h-4 w-4",
+            isActive ? "text-white" : "text-white/30 group-hover:text-white/50"
+          )}
+        />
+      )}
+      {isOpen && (
+        <>
+          <span className="truncate flex-1">{item.title}</span>
+          {item.badge && (
+            <span className="flex h-4.5 min-w-4.5 items-center justify-center rounded-[3px] bg-white/15 px-1 text-[9px] font-bold text-white/80 leading-none tabular-nums">
+              {item.badge}
+            </span>
+          )}
+        </>
       )}
     </Link>
   );
@@ -49,7 +54,10 @@ function NavLink({ item, isOpen, isActive, indent = false }: { item: NavItem; is
     return (
       <Tooltip>
         <TooltipTrigger render={<span />}>{link}</TooltipTrigger>
-        <TooltipContent side="right">{item.title}</TooltipContent>
+        <TooltipContent side="right" className="text-[11px]">
+          {item.title}
+          {item.badge && <span className="ml-1.5 text-[9px] opacity-60">({item.badge})</span>}
+        </TooltipContent>
       </Tooltip>
     );
   }
@@ -57,121 +65,104 @@ function NavLink({ item, isOpen, isActive, indent = false }: { item: NavItem; is
   return link;
 }
 
-// ── Collapsible ──
-function CollapsibleNavItem({ item, isOpen, pathname }: { item: NavItem; isOpen: boolean; pathname: string }) {
-  const isChildActive = item.children?.some((c) => pathname === c.href || pathname.startsWith(c.href)) ?? false;
-  const [expanded, setExpanded] = useState(isChildActive);
-  const Icon = item.icon;
-
-  if (!isOpen) {
-    return (
-      <Tooltip>
-        <TooltipTrigger render={<span />}>
-          <Link href={item.href} className={cn(itemBase, itemPy, itemPx, isChildActive ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground/60 hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground")}>
-            {Icon && <Icon className={cn("h-3.75 w-3.75 shrink-0", isChildActive ? "text-sidebar-accent-foreground" : "text-sidebar-foreground/35")} />}
-          </Link>
-        </TooltipTrigger>
-        <TooltipContent side="right">{item.title}</TooltipContent>
-      </Tooltip>
-    );
-  }
-
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => setExpanded(!expanded)}
-        className={cn(
-          itemBase, itemPy, itemPx, "w-full text-left",
-          isChildActive ? "text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground/60 hover:bg-sidebar-accent/40 hover:text-sidebar-accent-foreground"
-        )}
-      >
-        {Icon && <Icon className={cn("h-3.75 w-3.75 shrink-0", isChildActive ? "text-sidebar-accent-foreground" : "text-sidebar-foreground/35 group-hover:text-sidebar-foreground/60")} />}
-        <span className="truncate flex-1">{item.title}</span>
-        <ChevronRight className={cn("h-3 w-3 shrink-0 text-sidebar-foreground/20 transition-transform duration-150", expanded && "rotate-90")} />
-      </button>
-
-      {expanded && (
-        <div className="mt-0.5 mb-0.5">
-          {item.children?.map((child) => (
-            <NavLink key={child.href} item={child} isOpen={isOpen} isActive={pathname === child.href} indent />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── Sidebar ──
+/* ─── Sidebar ─── */
 export function Sidebar() {
   const pathname = usePathname();
   const { isOpen, toggle } = useSidebarStore();
 
+  const isItemActive = (item: NavItem) => {
+    if (item.href === "/dashboard") return pathname === "/dashboard";
+    if (item.href === "/approvals") return pathname === "/approvals";
+    return pathname === item.href || pathname.startsWith(item.href);
+  };
+
   return (
     <aside
       className={cn(
-        "flex flex-col bg-sidebar text-sidebar-foreground transition-all duration-200 shrink-0",
-        isOpen ? "w-52" : "w-14"
+        "flex flex-col bg-[#0c0c0c] transition-all duration-200 shrink-0 border-r border-white/4",
+        isOpen ? "w-50" : "w-13"
       )}
     >
-      {/* Brand */}
-      <div className="flex items-center gap-2 px-3 h-12 shrink-0 border-b border-sidebar-border/40">
-        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-white">
-          <span className="text-[8px] font-black text-[#0a0a0a] leading-none tracking-tighter">Ag</span>
-        </div>
+      {/* ─── Brand ─── */}
+      <div className={cn("flex items-center shrink-0 h-12 border-b border-white/6", isOpen ? "px-3 gap-2.5" : "px-0 justify-center")}>
+        <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
+          <div className="h-5.5 w-5.5 rounded-[4px] bg-white flex items-center justify-center shrink-0">
+            <span className="text-[7px] font-black text-[#0c0c0c] leading-none tracking-tighter">Ag</span>
+          </div>
+          {isOpen && (
+            <span className="text-[13px] font-semibold text-white/90 tracking-tight">Agentic</span>
+          )}
+        </Link>
         {isOpen && (
-          <span className="font-semibold text-[13px] tracking-tight text-sidebar-primary">Agentic</span>
+          <button
+            onClick={toggle}
+            className="ml-auto h-5 w-5 flex items-center justify-center rounded text-white/15 hover:text-white/40 hover:bg-white/4 transition-colors"
+          >
+            <ChevronsLeft className="h-3 w-3" />
+          </button>
         )}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="ml-auto shrink-0 h-5 w-5 text-sidebar-foreground/20 hover:bg-sidebar-accent/40 hover:text-sidebar-foreground/50"
-          onClick={toggle}
-        >
-          {isOpen ? <ChevronsLeft className="h-3 w-3" /> : <ChevronsRight className="h-3 w-3" />}
-        </Button>
       </div>
 
-      {/* Nav — hidden scrollbar */}
+      {/* ─── Navigation ─── */}
       <nav
-        className="flex-1 overflow-y-auto px-1.5 py-2"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className={cn("flex-1 overflow-y-auto py-2", isOpen ? "px-2" : "px-1.5")}
+        style={{ scrollbarWidth: "none" }}
       >
-        <style>{`nav::-webkit-scrollbar { display: none; }`}</style>
-
         {navSections.map((section, sIdx) => (
           <div key={section.label || sIdx}>
-            {/* Section separator */}
             {sIdx > 0 && (
-              <div className={cn("mt-3 mb-1", isOpen ? "px-2.5" : "px-1.5")}>
+              <div className={cn("my-2.5", isOpen ? "mx-1" : "mx-1")}>
                 {isOpen ? (
-                  <p className="text-[8px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/15 select-none">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-white/12 select-none px-1.5 mb-1">
                     {section.label}
                   </p>
                 ) : (
-                  <div className="border-t border-sidebar-border/30" />
+                  <div className="border-t border-white/6" />
                 )}
               </div>
             )}
 
-            <div>
-              {section.items.map((item) => {
-                if (item.children && item.children.length > 0) {
-                  return <CollapsibleNavItem key={item.href} item={item} isOpen={isOpen} pathname={pathname} />;
-                }
-                return (
-                  <NavLink
-                    key={item.href}
-                    item={item}
-                    isOpen={isOpen}
-                    isActive={pathname === item.href || (item.href !== "/dashboard" && item.href !== "/approvals" && pathname.startsWith(item.href))}
-                  />
-                );
-              })}
+            <div className="space-y-px">
+              {section.items.map((item) => (
+                <NavLink
+                  key={item.href}
+                  item={item}
+                  isOpen={isOpen}
+                  isActive={isItemActive(item)}
+                />
+              ))}
             </div>
           </div>
         ))}
       </nav>
+
+      {/* ─── Collapsed expand button ─── */}
+      {!isOpen && (
+        <div className="px-1.5 py-2 border-t border-white/6">
+          <button
+            onClick={toggle}
+            className="w-full h-7 flex items-center justify-center rounded text-white/15 hover:text-white/40 hover:bg-white/4 transition-colors"
+          >
+            <ChevronsRight className="h-3 w-3" />
+          </button>
+        </div>
+      )}
+
+      {/* ─── User footer ─── */}
+      {isOpen && (
+        <div className="px-2 py-2.5 border-t border-white/6">
+          <div className="flex items-center gap-2 px-1.5 py-1.5 rounded-md hover:bg-white/4 transition-colors cursor-pointer">
+            <div className="h-6 w-6 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <span className="text-[8px] font-bold text-white/60">SC</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] font-medium text-white/60 truncate">Sarah Chen</div>
+              <div className="text-[9px] text-white/25 truncate">Sr. Compliance Analyst</div>
+            </div>
+            <LogOut className="h-3 w-3 text-white/15 shrink-0" />
+          </div>
+        </div>
+      )}
     </aside>
   );
 }

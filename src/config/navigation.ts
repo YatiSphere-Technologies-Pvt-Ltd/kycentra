@@ -23,9 +23,9 @@ import {
   LayoutGrid,
   Radio,
   TrendingUp,
-  Network,
   FlaskConical,
   Layers,
+  FileText,
 } from "lucide-react";
 import type { NavItem } from "@/types";
 
@@ -58,7 +58,6 @@ export const navSections: NavSection[] = [
     items: [
       { title: "Graph Explorer", href: "/graph/explorer", icon: GitBranch },
       { title: "Regulations", href: "/regulations", icon: BookOpen },
-      { title: "Governance", href: "/governance", icon: ShieldAlert },
       { title: "Reports", href: "/reports", icon: BarChart3 },
     ],
   },
@@ -66,35 +65,33 @@ export const navSections: NavSection[] = [
     label: "PLATFORM",
     items: [
       { title: "Workflows", href: "/workflows", icon: Workflow },
-      {
-        title: "AI Agents",
-        href: "/agents/catalog",
-        icon: BrainCircuit,
-        children: [
-          { title: "Catalog", href: "/agents/catalog", icon: LayoutGrid },
-          { title: "Live Monitor", href: "/agents/monitor", icon: Radio },
-          { title: "Performance", href: "/agents/performance", icon: TrendingUp },
-          { title: "Orchestration", href: "/agents/orchestration", icon: GitBranch },
-          { title: "Sandbox", href: "/agents/sandbox", icon: FlaskConical },
-          { title: "Versions", href: "/agents/versions", icon: Layers },
-        ],
-      },
-      {
-        title: "Settings",
-        href: "/settings/users",
-        icon: Settings,
-        children: [
-          { title: "Users & Teams", href: "/settings/users", icon: Users },
-          { title: "Organization", href: "/settings/organization", icon: Building2 },
-          { title: "Integrations", href: "/settings/integrations", icon: Plug },
-          { title: "Audit", href: "/settings/audit", icon: Shield },
-          { title: "Data & Privacy", href: "/settings/data", icon: Database },
-          { title: "Notifications", href: "/settings/notifications", icon: Bell },
-          { title: "Branding", href: "/settings/branding", icon: Palette },
-        ],
-      },
+      { title: "AI Agents", href: "/agents/catalog", icon: BrainCircuit },
+      { title: "Governance", href: "/governance", icon: ShieldAlert },
+      { title: "Settings", href: "/settings/users", icon: Settings },
     ],
   },
+];
+
+// Sub-navigation for AI Agents (rendered inside the agents pages, not sidebar)
+export const agentSubNav: NavItem[] = [
+  { title: "Catalog", href: "/agents/catalog", icon: LayoutGrid },
+  { title: "Live Monitor", href: "/agents/monitor", icon: Radio },
+  { title: "Performance", href: "/agents/performance", icon: TrendingUp },
+  { title: "Orchestration", href: "/agents/orchestration", icon: GitBranch },
+  { title: "Sandbox", href: "/agents/sandbox", icon: FlaskConical },
+  { title: "Versions", href: "/agents/versions", icon: Layers },
+];
+
+// Sub-navigation for Settings (rendered inside settings pages, not sidebar)
+export const settingsSubNav: NavItem[] = [
+  { title: "Users & Teams", href: "/settings/users", icon: Users },
+  { title: "Organization", href: "/settings/organization", icon: Building2 },
+  { title: "AI Agents", href: "/settings/ai-agents", icon: BrainCircuit },
+  { title: "Integrations", href: "/settings/integrations", icon: Plug },
+  { title: "Audit", href: "/settings/audit", icon: Shield },
+  { title: "Data & Privacy", href: "/settings/data", icon: Database },
+  { title: "Notifications", href: "/settings/notifications", icon: Bell },
+  { title: "Branding", href: "/settings/branding", icon: Palette },
 ];
 
 export const bottomNavItems: NavItem[] = [];
