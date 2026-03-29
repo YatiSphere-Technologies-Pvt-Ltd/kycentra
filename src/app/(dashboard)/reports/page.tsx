@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, Fragment } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -93,6 +94,7 @@ const recent = [
 /* ─── Component ─── */
 
 export default function ReportsPage() {
+  const router = useRouter();
   const [filterCat, setFilterCat] = useState("all");
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [generating, setGenerating] = useState<string | null>(null);
@@ -156,6 +158,9 @@ export default function ReportsPage() {
               <Button variant="outline" size="sm" className="h-6 text-[9px] font-semibold px-2 gap-1"><Share2 className="h-2.5 w-2.5" /> Share</Button>
               <Button variant="outline" size="sm" className="h-6 text-[9px] font-semibold px-2 gap-1" onClick={() => handleGenerate(previewing.id)}>
                 <Download className="h-2.5 w-2.5" /> Export PDF
+              </Button>
+              <Button size="sm" className="h-6 text-[9px] font-semibold px-2 gap-1" onClick={() => router.push(`/reports/viewer?id=${previewing.id}`)}>
+                <Eye className="h-2.5 w-2.5" /> Full Report
               </Button>
               <button onClick={() => setPreviewId(null)} className="ml-1 text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" /></button>
             </div>
